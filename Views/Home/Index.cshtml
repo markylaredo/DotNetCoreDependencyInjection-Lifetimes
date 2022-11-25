@@ -1,0 +1,66 @@
+﻿@using DotNetCoreDependencyInjectionLifetimes.Interfaces
+@{
+    ViewData["Title"] = "Home Page";
+    ISingletonService singleService = (ISingletonService)ViewBag.Singleton;
+    ITransientService transientService = (ITransientService)ViewBag.Transient;
+    IScopedService scopedService = (IScopedService)ViewBag.Scope;
+    SessionService sessionService = (SessionService)ViewBag.SessionService;
+}
+
+
+<h1 class="display-4"></h1>
+<div class="row">
+    <div class="col-md-6">
+        <h1 class="display-4">Controller Service</h1>
+        <table class=" table ">
+            <tbody>
+            <tr>
+                <td>Singleton Service</td>
+                <th>@singleService.GetSessionId()</th>
+            </tr>
+            <tr>
+                <td>Scope Service</td>
+                <th>@scopedService.GetSessionId()</th>
+            </tr>
+            <tr>
+                <td>Transient Service</td>
+                <th>@transientService.GetSessionId()</th>
+            </tr>
+
+            </tbody>
+        </table>
+    </div>
+
+    <div class="text-center col-md-6">
+        <h1 class="display-4">Session Service</h1>
+        <table class=" table ">
+            <tbody>
+            <tr>
+                <th>@sessionService.SingletonSession.GetSessionId()</th>
+            </tr>
+            <tr>
+                <th>@sessionService.ScopedSession.GetSessionId()</th>
+            </tr>
+            <tr>
+                <th>@sessionService.TransientSession.GetSessionId()</th>
+            </tr>
+
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<div>
+    <ul>
+        <li><strong>Singleton </strong>&nbsp; &nbsp;: Objects are the same for every object and every request (regardless of whether an instance is provided in ConfigureServices)</li>
+        <li><strong>Generated</strong> : @sessionService.SingletonSession.GetSessionId()</li>
+    </ul>
+    <ul>
+        <li><strong>Scoped</strong> - Oobjects are the same within a request, but different across different requests</li>
+        <li><strong>Generated</strong> : @sessionService.ScopedSession.GetSessionId()</li>
+    </ul>
+    <ul>
+        <li><strong>Transient</strong> - Objects are always different; a new instance is provided to every controller and every service.</li>
+        <li><strong>Generated</strong> : @sessionService.TransientSession.GetSessionId()</li>
+    </ul>
+</div>
