@@ -2,6 +2,7 @@
 using DotNetCoreDependencyInjectionLifetimes.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using DotNetCoreDependencyInjectionLifetimes.Models;
+using DotNetCoreDependencyInjectionLifetimes.Services;
 
 namespace DotNetCoreDependencyInjectionLifetimes.Controllers;
 
@@ -11,25 +12,28 @@ public sealed class HomeController : Controller
     private readonly ITransientService _transientService;
     private readonly ISingletonService _singletonService;
     private readonly SessionService _sessionService;
+    private readonly UptimeService _uptimeService;
 
     public HomeController(IScopedService serviceScoped,
         ITransientService transientService,
         ISingletonService singletonService,
-        SessionService sessionService)
+        SessionService sessionService, UptimeService uptimeService)
     {
         _serviceScoped = serviceScoped;
         _transientService = transientService;
         _singletonService = singletonService;
         _sessionService = sessionService;
+        _uptimeService = uptimeService;
     }
 
     public IActionResult Index()
     {
-        ViewBag.Singleton = _singletonService ;
-        ViewBag.Transient = _transientService ;
-        ViewBag.Scope = _serviceScoped ;
-        ViewBag.SessionService = _sessionService ;
-
+        ViewBag.Singleton = _singletonService;
+        ViewBag.Transient = _transientService;
+        ViewBag.Scope = _serviceScoped;
+        ViewBag.SessionService = _sessionService;
+        var uptime = _uptimeService.GetUptime();
+        ViewBag.UpTime = uptime;
         var model = new LifeTimeService();
         model.Singleton = _singletonService.GetSessionId();
         model.Transient = _transientService.GetSessionId();

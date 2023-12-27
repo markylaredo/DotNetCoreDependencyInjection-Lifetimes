@@ -7,4 +7,9 @@
         <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
     </PropertyGroup>
 
+    <ItemGroup>
+      <PackageReference Include="Quartz.AspNetCore" Version="3.8.0" />
+      <PackageReference Include="Quartz.Extensions.DependencyInjection" Version="3.8.0" />
+    </ItemGroup>
+
 </Project>
